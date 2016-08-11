@@ -10,31 +10,78 @@ import java.util.Objects;
  */
 public class Experiment {
 
+    /**
+     * Should identify this instance among others.
+     */
     private String id;
 
+    /**
+     * Optional description of this very instance.
+     */
     private String description;
 
+    /**
+     * When this experiment has been started.
+     */
     private long startTime;
 
+    /**
+     * Optional tags to group multiple instances.
+     */
     private Collection<String> tags;
 
+    /**
+     * {@link Measurement}s captured for this instance.
+     */
     private Collection<Measurement> measurements;
+
+    /**
+     * The {@link Subject} being experimented with.
+     */
+    private Subject subject;
 
     /**
      * For deserialization.
      */
-    private Experiment() { }
-
-    public Experiment(String id, String description, String... tags) {
-        this(id, description, System.currentTimeMillis(), tags);
+    private Experiment() {
     }
 
-    public Experiment(String id, String description, long startTime, String... tags) {
+    /**
+     * Create a new instance that is starting right now.
+     *
+     * @param id      an ID for the new instance
+     * @param subject the {@link Subject}
+     * @param tags    tags to group several experiments
+     */
+    public Experiment(String id, Subject subject, String... tags) {
+        this(id, subject, System.currentTimeMillis(), tags);
+    }
+
+    /**
+     * Create a new instance.
+     *
+     * @param id        an ID for the new instance
+     * @param subject   the {@link Subject}
+     * @param startTime start timestamp of experiment
+     * @param tags      tags to group several experiments
+     */
+    public Experiment(String id, Subject subject, long startTime, String... tags) {
         this.id = id;
-        this.description = description;
+        this.subject = subject;
         this.startTime = startTime;
         this.tags = Arrays.asList(tags);
         this.measurements = new LinkedList<>();
+    }
+
+    /**
+     * Adds a description for this instance.
+     *
+     * @param description the description
+     * @return this instance
+     */
+    public Experiment withDescription(String description) {
+        this.description = description;
+        return this;
     }
 
 
