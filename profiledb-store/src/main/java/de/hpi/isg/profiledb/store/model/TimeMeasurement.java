@@ -191,6 +191,6 @@ public class TimeMeasurement extends Measurement {
 
     @Override
     public String toString() {
-        return String.format("%s[%s, %d subrounds]", this.getClass().getSimpleName(), formatDuration(this.millis), this.rounds.size());
+        return String.format("%s[%s, %s, %d subs]", this.getClass().getSimpleName(), this.getId(), formatDuration(this.millis), this.rounds.size());
     }
 }
