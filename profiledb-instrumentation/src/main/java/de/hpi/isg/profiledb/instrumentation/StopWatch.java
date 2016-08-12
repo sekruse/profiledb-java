@@ -134,4 +134,13 @@ public class StopWatch {
     public void stopAll() {
         this.rounds.values().forEach(TimeMeasurement::stop);
     }
+
+    /**
+     * Get the {@link Experiment} managed by this instance.
+     *
+     * @return the {@link Experiment}
+     */
+    public Experiment getExperiment() {
+        return this.experiment;
+    }
 }
