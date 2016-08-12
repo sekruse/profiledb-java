@@ -15,7 +15,7 @@ public class TestTimeMeasurement extends Measurement {
 
     private long millis;
 
-    private Collection<TestTimeMeasurement> submeasurements;
+    private Collection<Measurement> submeasurements;
 
     public TestTimeMeasurement(String id, long millis) {
         super(id);
@@ -31,7 +31,7 @@ public class TestTimeMeasurement extends Measurement {
         this.millis = millis;
     }
 
-    public Collection<TestTimeMeasurement> getSubmeasurements() {
+    public Collection<Measurement> getSubmeasurements() {
         return submeasurements;
     }
 
