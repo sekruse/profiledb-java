@@ -122,7 +122,32 @@ public class ProfileDBTest {
         final List<Experiment> expectedExperiments = Arrays.asList(experiment1, experiment2, experiment3);
         Assert.assertEquals(expectedExperiments.size(), loadedExperiments.size());
         Assert.assertEquals(new HashSet<>(expectedExperiments), new HashSet<>(loadedExperiments));
+    }
 
+    @Test
+    public void testAppendOnNonExistentFile() throws IOException {
+        // This seems to be an issue on Linux.
+        ProfileDB profileDB = new ProfileDB()
+                .registerMeasurementClass(TestMemoryMeasurement.class)
+                .registerMeasurementClass(TestTimeMeasurement.class);
+
+        // Create example experiments.
+        final Experiment experiment1 = new Experiment("xp1", new Subject("PageRank", "1.0"), "test experiment 1");
+        experiment1.addMeasurement(new TestTimeMeasurement("exec-time", 1L));
+
+        // Save the experiments.
+        File tempDir = Files.createTempDirectory("profiledb").toFile();
+        File file = new File(tempDir, "new-profiledb.json");
+        Assert.assertTrue(!file.exists() || file.delete());
+        profileDB.append(file, experiment1);
+
+        Files.lines(file.toPath()).forEach(System.out::println);
+
+        // Load and compare.
+        final Set<Experiment> loadedExperiments = new HashSet<>(profileDB.load(file));
+        final List<Experiment> expectedExperiments = Collections.singletonList(experiment1);
+        Assert.assertEquals(expectedExperiments.size(), loadedExperiments.size());
+        Assert.assertEquals(new HashSet<>(expectedExperiments), new HashSet<>(loadedExperiments));
     }
 
 }
