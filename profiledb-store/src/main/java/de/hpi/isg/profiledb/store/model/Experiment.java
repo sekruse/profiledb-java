@@ -125,6 +125,14 @@ public class Experiment {
         return measurements;
     }
 
+    public Subject getSubject() {
+        return this.subject;
+    }
+
+    public void setSubject(Subject subject) {
+        this.subject = subject;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -133,11 +141,23 @@ public class Experiment {
         return startTime == that.startTime &&
                 Objects.equals(id, that.id) &&
                 Objects.equals(description, that.description) &&
-                Objects.equals(tags, that.tags);
+                Objects.equals(tags, that.tags) &&
+                Objects.equals(subject, that.subject);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, description, startTime, tags);
+        return Objects.hash(id, startTime);
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+                "%s[%s, %d tags, %d measurements]",
+                this.getClass().getSimpleName(),
+                this.id,
+                this.tags.size(),
+                this.measurements.size()
+        );
     }
 }

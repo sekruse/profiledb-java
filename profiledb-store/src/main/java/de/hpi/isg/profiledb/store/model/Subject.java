@@ -2,6 +2,7 @@ package de.hpi.isg.profiledb.store.model;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * The subject of an {@link Experiment}, e.g., an application or algorithm.
@@ -44,5 +45,25 @@ public class Subject {
     public Subject addConfiguration(String key, Object value) {
         this.configuration.put(key, value);
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s[%s:%s]", this.getClass().getSimpleName(), this.id, this.version);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Subject subject = (Subject) o;
+        return Objects.equals(id, subject.id) &&
+                Objects.equals(version, subject.version) &&
+                Objects.equals(configuration, subject.configuration);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, version, configuration);
     }
 }
