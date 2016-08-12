@@ -6,6 +6,7 @@ import de.hpi.isg.profiledb.store.json.MeasurementDeserializer;
 import de.hpi.isg.profiledb.store.json.MeasurementSerializer;
 import de.hpi.isg.profiledb.store.model.Experiment;
 import de.hpi.isg.profiledb.store.model.Measurement;
+import de.hpi.isg.profiledb.store.model.TimeMeasurement;
 
 import java.io.*;
 import java.util.Arrays;
@@ -56,6 +57,13 @@ public class ProfileDB {
                     .create();
         }
         return this.gson;
+    }
+
+    /**
+     * Creates a new instance.
+     */
+    public ProfileDB() {
+        this.measurementClasses.add(TimeMeasurement.class);
     }
 
     /**
