@@ -90,7 +90,7 @@ public class TimeMeasurement extends Measurement {
     /**
      * Retrieves an existing {@link TimeMeasurement} from {@link #rounds} with the given {@code id} or creates and stores a new one.
      *
-     * @param id the ID of the {@Link TimeMeasurement}
+     * @param id the ID of the {@link TimeMeasurement}
      * @return the {@link TimeMeasurement}
      */
     public TimeMeasurement getOrCreateRound(String id) {
@@ -105,7 +105,7 @@ public class TimeMeasurement extends Measurement {
     /**
      * Retrieves an existing {@link TimeMeasurement} from {@link #rounds} with the given {@code id}.
      *
-     * @param id the ID of the {@Link TimeMeasurement}
+     * @param id the ID of the {@link TimeMeasurement}
      * @return the {@link TimeMeasurement} or {@code null} if it does not exist
      */
     private TimeMeasurement getRound(String id) {
