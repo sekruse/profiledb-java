@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * This class provides facilities to save and load {@link Experiment}s.
@@ -23,6 +24,11 @@ public class ProfileDB {
      * Maintains a list of {@link Class}es for {@link Measurement}s. Required for deserialization.
      */
     private List<Class<? extends Measurement>> measurementClasses = new LinkedList<>();
+
+    /**
+     * Maintains actions to preparate {@link Gson}.
+     */
+    private List<Consumer<GsonBuilder>> gsonPreparationSteps = new LinkedList<>();
 
     /**
      * Maintains a {@link Gson} object for efficiency. It will be dropped on changes, though.
@@ -42,6 +48,18 @@ public class ProfileDB {
     }
 
     /**
+     * Apply any changes necessary to {@link Gson} so that it can be used for de/serialization of custom objects.
+     *
+     * @param preparation a preparatory step performed on a {@link GsonBuilder}
+     * @return this instance
+     */
+    public ProfileDB withGsonPreparation(Consumer<GsonBuilder> preparation) {
+        this.gsonPreparationSteps.add(preparation);
+        this.gson = null;
+        return this;
+    }
+
+    /**
      * Provide a {@link Gson} object.
      *
      * @return the {@link Gson} object
@@ -51,10 +69,11 @@ public class ProfileDB {
             MeasurementSerializer measurementSerializer = new MeasurementSerializer();
             MeasurementDeserializer measurementDeserializer = new MeasurementDeserializer();
             this.measurementClasses.forEach(measurementDeserializer::register);
-            this.gson = new GsonBuilder()
+            final GsonBuilder gsonBuilder = new GsonBuilder()
                     .registerTypeAdapter(Measurement.class, measurementDeserializer)
-                    .registerTypeAdapter(Measurement.class, measurementSerializer)
-                    .create();
+                    .registerTypeAdapter(Measurement.class, measurementSerializer);
+            this.gsonPreparationSteps.forEach(step -> step.accept(gsonBuilder));
+            this.gson = gsonBuilder.create();
         }
         return this.gson;
     }
