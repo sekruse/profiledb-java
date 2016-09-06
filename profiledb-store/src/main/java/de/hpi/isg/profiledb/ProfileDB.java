@@ -134,7 +134,7 @@ public class ProfileDB {
      * @throws IOException if the writing fails
      */
     public void save(File file, Collection<Experiment> experiments) throws IOException {
-        file.getParentFile().mkdirs();
+        file.getAbsoluteFile().getParentFile().mkdirs();
         try (FileOutputStream fos = new FileOutputStream(file, false)) {
             this.save(experiments, fos);
         }
@@ -159,7 +159,7 @@ public class ProfileDB {
      * @throws IOException if the writing fails
      */
     public void append(File file, Collection<Experiment> experiments) throws IOException {
-        file.getParentFile().mkdirs();
+        file.getAbsoluteFile().getParentFile().mkdirs();
         try (FileOutputStream fos = new FileOutputStream(file, true)) {
             this.save(experiments, fos);
         }
