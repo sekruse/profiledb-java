@@ -1,6 +1,9 @@
 package de.hpi.isg.profiledb.store.json;
 
-import com.google.gson.*;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
 import de.hpi.isg.profiledb.store.model.Measurement;
 
 import java.lang.reflect.Type;
@@ -8,7 +11,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * TODO
+ * Custom deserializer for {@link Measurement}s that detects the actual subclass of the serialized instances and
+ * then delegates the deserialization to that subtype.
  */
 public class MeasurementDeserializer implements JsonDeserializer<Measurement> {
 
